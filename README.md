@@ -26,6 +26,8 @@ A lightweight, native macOS menu bar application that automatically updates your
 2. Double-click the `.zip` file in your Downloads folder to extract the application.
 3. Drag the extracted `.app` file into your Mac's **Applications** folder.
 
+Alternatively, you can build the app yourself by running the build_app.sh file.
+
 ### ⚠️ macOS Gatekeeper Warning ("Unidentified Developer")
 Because this app is open-source and not signed with a paid Apple Developer certificate, macOS will block it the first time you try to open it by double-clicking. 
 
