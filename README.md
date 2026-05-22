@@ -24,7 +24,7 @@ A lightweight, native macOS menu bar application that automatically updates your
 
 1. Head over to the **[Releases](../../releases/latest)** page and download the latest `main.app.zip` (or `GeForceNowPresence.app.zip`) file.
 2. Double-click the `.zip` file in your Downloads folder to extract the application.
-3. Drag the extracted `.app` file into your Mac's **Applications** folder.
+3. Drag the extracted `.app` file into your Mac's **Applications** folder and run it.
 You will now see a "GFN" icon on your MacOS topbar. 
 <img width="1512" height="30" alt="Screenshot 2026-05-22 at 6 49 34 PM" src="https://github.com/user-attachments/assets/2fa0ea41-1d86-45e3-b307-8e5c0c93529e" />
 <img width="175" height="140" alt="Screenshot 2026-05-22 at 6 49 59 PM" src="https://github.com/user-attachments/assets/406d13c7-50b6-4f0c-b763-34c0a90fcda2" />
