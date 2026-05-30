@@ -96,5 +96,9 @@ class GFNPresenceEngine:
         except Exception as e:
             print(f"Error resetting log monitor: {e}")
             pass
-
+            
+    def re_enable(self):
+        """Reset state so presence can reconnect on the next timer tick."""
+        self.disconnect()
+        
         
