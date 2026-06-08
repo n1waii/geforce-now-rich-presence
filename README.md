@@ -44,9 +44,13 @@ Because this app is open-source and not signed with a paid Apple Developer certi
 
 ## Troubleshooting & Logs
 
+If your game is still not detected, make sure to disable the default NVIDIA GFN Rich Presence by going to GFN settings.
+
 Because this application runs entirely headlessly as a background UI element, standard errors are hidden by macOS. 
 
 If your Discord presence isn't updating or the app behaves strangely, you can easily view the live diagnostic logs by opening your Mac's built-in **Console** app, or by running this command in your Terminal:
 
 ```bash
 tail -f ~/Library/Logs/GFN_Presence/gfn_presence_debug.log
+
+
