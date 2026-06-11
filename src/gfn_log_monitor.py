@@ -66,7 +66,7 @@ class GFNLogMonitor:
 
     def scan_new_lines(self):
         if not self.file_handle:
-            if not self.init_stream(seek_to_end=True):
+            if not self.init_stream(seek_to_end=False):
                 return self.current_game, self.is_playing
         elif self.check_file_rotated():
             print("[Log Monitor]: NVIDIA restarted. Re-hooking fresh stream...")
