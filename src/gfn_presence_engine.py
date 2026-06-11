@@ -68,7 +68,7 @@ class GFNPresenceEngine:
                 if self.active_status == "GeForce NOW Dashboard":
                     self.rpc.update(details="Browsing Games", state="In Launcher", start=self.start_time)
                 else:
-                    self.rpc.update(start=self.start_time)
+                    self.rpc.update(details=self.active_status, state="Streaming on GeForce NOW", start=self.start_time)
 
             except Exception as e:
                 print(f"Discord IPC bind error: {e}")
@@ -109,7 +109,19 @@ class GFNPresenceEngine:
         """Looks up a game locally, falling back to Discord's Detectable API if missing."""
         if game_name in self.game_mappings:
             return self.game_mappings[game_name].get("client_id", self.default_id)
-            
+
+        normalized_game_name = self._normalize_game_name(game_name)
+        for mapped_name, game_data in self.game_mappings.items():
+            candidates = [
+                mapped_name,
+                game_data.get("name", ""),
+                game_data.get("title", ""),
+            ]
+            if any(self._normalize_game_name(candidate) == normalized_game_name for candidate in candidates):
+                client_id = game_data.get("client_id")
+                if client_id:
+                    return client_id
+                    
         if game_name in self.api_checked_games:
             return self.default_id
             
@@ -149,6 +161,12 @@ class GFNPresenceEngine:
             print(f"[Engine API]: Failed to fetch from Discord API: {e}")
             
         return self.default_id
+    
+    def _normalize_game_name(self, game_name):
+        """Normalizes game titles so log names match config entries with trademark symbols."""
+        clean_name = game_name.replace("®", "").replace("™", "")
+        clean_name = re.sub(r'\s+', ' ', clean_name).strip()
+        return clean_name.lower()
 
     def _update_config_from_api(self):
         """Fetches all detectable applications from Discord API and updates local config in the background."""
