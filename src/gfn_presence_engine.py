@@ -68,7 +68,7 @@ class GFNPresenceEngine:
                 if self.active_status == "GeForce NOW Dashboard":
                     self.rpc.update(details="Browsing Games", state="In Launcher", start=self.start_time)
                 else:
-                    self.rpc.update(start=self.start_time)
+                    self.rpc.update(details=self.active_status, state="Streaming on GeForce NOW", start=self.start_time)
 
             except Exception as e:
                 print(f"Discord IPC bind error: {e}")
