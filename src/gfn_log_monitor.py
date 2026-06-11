@@ -5,6 +5,14 @@ import subprocess
 
 
 class GFNLogMonitor:
+    GAME_CLOSED_MARKERS = (
+        "source onFocus for key Library",
+        "onFocus for key SessionChange",
+        "UdsEndOfSessionReport",
+        '"source":"EndOfSession"',
+        "sessionEndTimeStamp",
+    )
+
     def __init__(self, config_path="games_config_merged.json"):
         self.log_path = os.path.expanduser('~/Library/Application Support/NVIDIA/GeForceNOW/console.log')
         self.file_handle = None
@@ -58,6 +66,12 @@ class GFNLogMonitor:
         self.current_game = "GeForce NOW Dashboard"
         self.is_playing = False
 
+    def mark_game_closed(self):
+        if self.is_playing:
+            print(f"[Event Trigger]: {self.current_game} closed. Returning to Dashboard.")
+            self.current_game = "GeForce NOW Dashboard"
+            self.is_playing = False
+
     def close(self):
         if self.file_handle:
             try: self.file_handle.close()
@@ -66,6 +80,8 @@ class GFNLogMonitor:
 
     def scan_new_lines(self):
         if not self.file_handle:
+            # Read the existing log once on startup so games that were launched
+            # before this app started are detected too.
             if not self.init_stream(seek_to_end=False):
                 return self.current_game, self.is_playing
         elif self.check_file_rotated():
@@ -89,10 +105,7 @@ class GFNLogMonitor:
                         self.is_playing = True
                         print(f"[Event Trigger]: Launched {self.current_game}")
                 
-                elif "source onFocus for key Library" in line or "onFocus for key SessionChange" in line:
-                    if self.is_playing:
-                        print(f"[Event Trigger]: Game closed. Returning to Dashboard.")
-                        self.current_game = "GeForce NOW Dashboard"
-                        self.is_playing = False
+                elif any(marker in line for marker in self.GAME_CLOSED_MARKERS):
+                    self.mark_game_closed()
 
         return self.current_game, self.is_playing
